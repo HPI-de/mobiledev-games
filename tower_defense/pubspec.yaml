@@ -1,5 +1,4 @@
 name: tower_defense
-description: A new Flutter project.
 publish_to: "none"
 version: 0.0.1
 
@@ -9,6 +8,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  basics: ^0.4.0+1
+  black_hole_flutter: ^0.2.12
+  flame: ^0.22.0
 
 flutter:
   uses-material-design: true
