@@ -4,6 +4,8 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:meta/meta.dart';
 
+import 'components/towers.dart';
+
 TowerDefenseGame get game => _game;
 TowerDefenseGame _game;
 
@@ -17,8 +19,17 @@ class TowerDefenseGame extends BaseGame {
       return;
     }
 
-    final tilesheet = await Flame.images.load('tilesheet.png');
-    _game = TowerDefenseGame._(tilesheet: tilesheet);
+    _game = TowerDefenseGame._(
+      tilesheet: await Flame.images.load('tilesheet.png'),
+    );
+    // _onCreate() creates components that rely on the global singleton instance.
+    // ignore: cascade_invocations
+    _game._onCreate();
+  }
+
+  void _onCreate() {
+    final tower = CannonTower();
+    add(tower.component);
   }
 
   final Image tilesheet;
