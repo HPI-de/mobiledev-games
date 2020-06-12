@@ -1,0 +1,23 @@
+name: tower_defense
+publish_to: "none"
+version: 0.0.1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  basics: ^0.4.0+1
+  black_hole_flutter: ^0.2.12
+  flame: ^0.22.0
+  meta: ^1.1.8
+
+dev_dependencies:
+  extra_pedantic: ^1.2.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
