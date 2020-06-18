@@ -7,23 +7,24 @@ import 'blocks.dart';
 import 'paddle.dart';
 
 class Ball extends PositionComponent {
-  static const size = 20.0;
-
   Ball({
-    @required double x,
-    @required double y,
-    @required this.speedX,
-    @required this.speedY,
+    @required Offset position,
+    @required double size,
+    @required this.speed,
     @required this.blocks,
     @required this.paddle,
-  }) {
-    this.x = x;
-    this.y = y;
+  })  : assert(position != null),
+        assert(size != null),
+        assert(speed != null),
+        assert(blocks != null),
+        assert(paddle != null) {
+    this.x = position.dx;
+    this.y = position.dy;
     this.width = size;
     this.height = size;
   }
 
-  double speedX, speedY;
+  Offset speed;
 
   final BlockManager blocks;
   final Paddle paddle;
@@ -45,15 +46,25 @@ class Ball extends PositionComponent {
   @override
   void update(double dt) {
     super.update(dt);
-    final deltaX = speedX * dt;
-    final deltaY = speedY * dt;
-    if (x + deltaX > environmentSize?.width ?? 400) {
-      speedX *= -1;
+
+    // In the first update call, we don't have an environment size yet.
+    if (environmentSize == null) return;
+
+    final currentPosition = Offset(x, y);
+    final delta = speed * dt;
+    final estimatedPos = currentPosition + delta;
+
+    if (estimatedPos.dx < 0 ||
+        estimatedPos.dx + width > environmentSize.width) {
+      speed = speed.scale(-1, 1);
     }
-    if (y + deltaY > environmentSize?.height ?? 400) {
-      speedY *= -1;
+    if (estimatedPos.dy < 0 ||
+        estimatedPos.dy + height > environmentSize.height) {
+      speed = speed.scale(1, -1);
     }
-    x += speedX * dt;
-    y += speedY * dt;
+
+    final position = currentPosition + speed * dt;
+    x = position.dx;
+    y = position.dy;
   }
 }

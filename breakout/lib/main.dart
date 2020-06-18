@@ -10,27 +10,35 @@ import 'paddle.dart';
 import 'utils.dart';
 
 main() {
-  Game game = BreakoutGame();
+  const width = 500.0;
+  const height = 900.0;
+
+  Game game = BreakoutGame(width, height);
   runApp(Container(
     color: Colorz.redZero,
     alignment: Alignment.center,
-    child: SizedBox(
-      width: 500,
-      height: 500,
-      child: game.widget,
+    // We could adjust to playing field to the user's screen size, but that
+    // would make scores not comparable across devices.
+    child: FittedBox(
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: game.widget,
+      ),
     ),
   ));
 }
 
 class BreakoutGame extends BaseGame with HorizontalDragDetector {
-  BreakoutGame() {
-    final blocks = BlockManager.fillArea(Rect.fromLTWH(0, 0, 500, 200));
-    final paddle = Paddle(x: 10, y: 500 - Paddle.theHeight);
+  BreakoutGame(double width, double height) {
+    final blocks = BlockManager.fillArea(
+      Rect.fromLTWH(0, 0, width, height / 2),
+    );
+    final paddle = Paddle(x: 10, y: height - Paddle.theHeight);
     final ball = Ball(
-      x: 350,
-      y: 300,
-      speedX: 10,
-      speedY: 10,
+      position: Offset(width / 2, 5 / 7 * height),
+      size: 40,
+      speed: Offset(500, 500),
       blocks: blocks,
       paddle: paddle,
     );

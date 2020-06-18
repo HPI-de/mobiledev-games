@@ -12,7 +12,7 @@ dependencies:
   colorz: ^1.0.0
   basics: any
   collection: any
-  flame: ^0.21.0
+  flame: ^0.22.0
   black_hole_flutter: any
 
 dev_dependencies:
